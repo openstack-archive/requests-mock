@@ -43,6 +43,9 @@ def _check_body_arguments(**kwargs):
 class _FakeConnection(object):
     """An object that can mock the necessary parts of a socket interface."""
 
+    def send(self, request, **kwargs):
+        raise Exception()
+
     def close(self):
         pass
 
@@ -69,6 +72,7 @@ def create_response(request, **kwargs):
     content = kwargs.pop('content', None)
     text = kwargs.pop('text', None)
     json = kwargs.pop('json', None)
+    connection = kwargs.pop('connection', _FakeConnection())
     encoding = None
 
     if content and not isinstance(content, six.binary_type):
@@ -93,7 +97,7 @@ def create_response(request, **kwargs):
                            original_response=compat._fake_http_response)
 
     response = _http_adapter.build_response(request, raw)
-    response.connection = _FakeConnection()
+    response.connection = connection
     response.encoding = encoding
     return response
 
