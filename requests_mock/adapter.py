@@ -163,6 +163,11 @@ class _Matcher(_RequestHistoryTracker):
 
     def _match_headers(self, request):
         for k, vals in six.iteritems(self._request_headers):
+
+            # headers are bytes so optionally encode
+            if isinstance(k, six.text_type):
+                k = k.encode('utf-8')
+
             try:
                 header = request.headers[k]
             except KeyError:
