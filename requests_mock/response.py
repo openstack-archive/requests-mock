@@ -89,6 +89,12 @@ def create_response(request, **kwargs):
     if text is not None:
         encoding = 'utf-8'
         content = text.encode(encoding)
+    if body is not None and not hasattr(body, 'read'):
+        body = six.BytesIO(body)
+    # Normally this would be an elif below but I have kept this to keep
+    # backwards compatibility with the previous behaviour.
+    # TODO(sigmavirus24) When a major version (read: backwards incompatible)
+    # can be made, change the statement below to `elif content is not None`.
     if content is not None:
         body = six.BytesIO(content)
     if not raw:
