@@ -89,6 +89,8 @@ def create_response(request, **kwargs):
     if text is not None:
         encoding = 'utf-8'
         content = text.encode(encoding)
+    if body is not None and not hasattr(body, 'read'):
+        body = six.BytesIO(body)
     if content is not None:
         body = six.BytesIO(content)
     if not raw:
