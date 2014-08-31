@@ -83,6 +83,8 @@ def create_response(request, **kwargs):
         raise TypeError('Content should be a callback or binary data')
     if text and not isinstance(text, six.string_types):
         raise TypeError('Text should be a callback or string data')
+    if body and not hasattr(body, 'read'):
+        raise TypeError('Body should be a readable IO object')
 
     if json is not None:
         text = jsonutils.dumps(json)
@@ -126,6 +128,7 @@ class _MatcherResponse(object):
         # are handled between python 2 and 3.
         content = self._params.get('content')
         text = self._params.get('text')
+        body = self._params.get('body')
 
         if content and not (callable(content) or
                             isinstance(content, six.binary_type)):
@@ -134,6 +137,9 @@ class _MatcherResponse(object):
         if text and not (callable(text) or
                          isinstance(text, six.string_types)):
             raise TypeError('Text should be a callback or string data')
+
+        if body and not (callable(body) or hasattr(body, 'read')):
+            raise TypeError('Body should be a readable IO object')
 
     def get_response(self, request):
         context = _Context(self._params.get('headers', {}).copy(),
