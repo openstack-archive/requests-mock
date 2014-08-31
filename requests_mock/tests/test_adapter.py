@@ -260,6 +260,20 @@ class SessionAdapterTests(base.TestCase):
                           self.url,
                           content=six.u('unicode'))
 
+    def test_dont_text_unicode_as_body(self):
+        self.assertRaises(TypeError,
+                          self.adapter.register_uri,
+                          'GET',
+                          self.url,
+                          body=six.u('unicode'))
+
+    def test_dont_text_bytes_as_body(self):
+        self.assertRaises(TypeError,
+                          self.adapter.register_uri,
+                          'GET',
+                          self.url,
+                          body=six.b('bytes'))
+
     def test_dont_pass_bytes_as_text(self):
         if six.PY2:
             self.skipTest('Cannot enforce byte behaviour in PY2')

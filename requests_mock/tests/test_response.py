@@ -50,6 +50,12 @@ class ResponseTests(base.TestCase):
         self.assertRaises(TypeError, self.create_response, content=six.u('t'))
         self.assertRaises(TypeError, self.create_response, content={'a': 1})
 
+    def test_body_type(self):
+        self.assertRaises(TypeError, self.create_response, body=55)
+        self.assertRaises(TypeError, self.create_response, body={'a': 'b'})
+        self.assertRaises(TypeError, self.create_response, body=six.u('u'))
+        self.assertRaises(TypeError, self.create_response, body=six.b('b'))
+
     def test_json_body(self):
         data = {'a': 1}
         resp = self.create_response(json=data)
