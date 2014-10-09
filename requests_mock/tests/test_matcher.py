@@ -27,15 +27,19 @@ class TestMatcher(base.TestCase):
               request_method='GET',
               complete_qs=False,
               headers=None,
-              request_headers={}):
+              request_headers={},
+              body=None,
+              request_body=None):
         matcher = adapter._Matcher(matcher_method,
                                    target,
                                    [],
                                    complete_qs,
-                                   request_headers)
+                                   request_headers,
+                                   body=body)
         request = adapter._RequestObjectProxy._create(request_method,
                                                       url,
-                                                      headers)
+                                                      headers,
+                                                      data=request_body)
         return matcher._match(request)
 
     def assertMatch(self,
@@ -220,3 +224,22 @@ class TestMatcher(base.TestCase):
                            'http://www.test.com/path',
                            headers={'A': 'abc', 'b': 'def'},
                            request_headers={'c': 'ghi'})
+
+    def test_match_with_body(self):
+        self.assertMatch('/path',
+                         'http://www.test.com/path',
+                         body='123\n456\n789\n',
+                         request_body='123\n456\n789\n')
+
+        self.assertMatch('/path',
+                         'http://www.test.com/path',
+                         request_body='123\n456\n789\n')
+
+        self.assertNoMatch('/path',
+                           'http://www.test.com/path',
+                           body='123\n456\n789\n')
+
+        self.assertNoMatch('/path',
+                           'http://www.test.com/path',
+                           body='123\n456\n789\n',
+                           request_body='qaz\nwsx\nedc\n')

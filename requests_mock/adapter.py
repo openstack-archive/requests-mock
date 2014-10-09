@@ -99,12 +99,14 @@ class _RequestHistoryTracker(object):
 class _Matcher(_RequestHistoryTracker):
     """Contains all the information about a provided URL to match."""
 
-    def __init__(self, method, url, responses, complete_qs, request_headers):
+    def __init__(self, method, url, responses, complete_qs, request_headers,
+                 body=None):
         """
         :param bool complete_qs: Match the entire query string. By default URLs
             match if all the provided matcher query arguments are matched and
             extra query arguments are ignored. Set complete_qs to true to
             require that the entire query string needs to match.
+        :param string body: Match the request body contents.
         """
         super(_Matcher, self).__init__()
         self._method = method
@@ -116,6 +118,7 @@ class _Matcher(_RequestHistoryTracker):
         self._responses = responses
         self._complete_qs = complete_qs
         self._request_headers = request_headers
+        self._body = body
 
     def _match_method(self, request):
         if self._method is ANY:
@@ -184,10 +187,20 @@ class _Matcher(_RequestHistoryTracker):
 
         return True
 
+    def _match_body(self, request):
+        if self._body in [None, ANY]:
+            return True
+
+        if request.body == self._body:
+            return True
+
+        return False
+
     def _match(self, request):
         return (self._match_method(request) and
                 self._match_url(request) and
-                self._match_headers(request))
+                self._match_headers(request) and
+                self._match_body(request))
 
     def __call__(self, request):
         if not self._match(request):
@@ -233,6 +246,7 @@ class Adapter(BaseAdapter, _RequestHistoryTracker):
         """
         complete_qs = kwargs.pop('complete_qs', False)
         request_headers = kwargs.pop('request_headers', {})
+        body = kwargs.pop('body', None)
 
         if response_list and kwargs:
             raise RuntimeError('You should specify either a list of '
@@ -245,7 +259,8 @@ class Adapter(BaseAdapter, _RequestHistoryTracker):
                            url,
                            responses,
                            complete_qs=complete_qs,
-                           request_headers=request_headers)
+                           request_headers=request_headers,
+                           body=body)
         self.add_matcher(matcher)
         return matcher
 
