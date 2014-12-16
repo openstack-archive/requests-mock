@@ -40,6 +40,10 @@ class _RequestObjectProxy(object):
     def __getattr__(self, name):
         return getattr(self._request, name)
 
+    def __str__(self):
+        return '<Request: %s %s>' % (self._request.method.upper(),
+                                     self._request.url)
+
     @property
     def _url_parts(self):
         if self._url_parts_ is None:
