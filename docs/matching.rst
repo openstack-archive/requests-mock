@@ -14,6 +14,21 @@ The examples in this file are loaded with:
     >>> session = requests.Session()
     >>> session.mount('mock', adapter)
 
+.. note::
+
+    The examples within use this syntax because request matching is a function of the adapter and not the mocker.
+    All the same arguments can be provided to the mocker if that is how you use `requests_mock` within your project, and use the
+
+    .. code:: python
+
+        mock.get(url, ...)
+
+    form in place of the given:
+
+    .. code:: python
+
+        adapter.register_uri('GET', url, ...)
+
 Basic
 =====
 

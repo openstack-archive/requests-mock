@@ -8,9 +8,10 @@ Contents:
    :maxdepth: 2
 
    overview
-   adapter
-   matching
    mocker
+   matching
+   response
+   adapter
    contrib
 
 Indices and tables
