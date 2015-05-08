@@ -353,7 +353,7 @@ class SessionAdapterTests(base.TestCase):
         self.assertEqual(len(resps), self.adapter.call_count)
         self.assertTrue(self.adapter.called)
 
-    def test_adapter_picks_correct_adatper(self):
+    def test_adapter_picks_correct_adapter(self):
         good = '%s://test3.url/' % self.PREFIX
         self.adapter.register_uri('GET',
                                   '%s://test1.url' % self.PREFIX,
