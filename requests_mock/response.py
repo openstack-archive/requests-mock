@@ -14,6 +14,7 @@ import json as jsonutils
 
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.response import HTTPResponse
+from requests import status_codes
 import six
 
 from requests_mock import compat
@@ -147,10 +148,15 @@ class _MatcherResponse(object):
         # if an error was requested then raise that instead of doing response
         if self._exc:
             raise self._exc
-
+        status_code = self._params.get('status_code', _DEFAULT_STATUS)
+        # if there is no reason provided use default reason for
+        # current status code.
+        reason = self._params.get(
+            'reason',
+            status_codes._codes.get(status_code, [''])[0].capitalize())
         context = _Context(self._params.get('headers', {}).copy(),
-                           self._params.get('status_code', _DEFAULT_STATUS),
-                           self._params.get('reason'))
+                           status_code,
+                           reason)
 
         # if a body element is a callback then execute it
         def _call(f, *args, **kwargs):
