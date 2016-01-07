@@ -44,14 +44,13 @@ class TestMatcher(base.TestCase):
                     matcher_method='GET',
                     request_method='GET',
                     **kwargs):
-        self.assertEqual(True,
-                         self.match(target,
-                                    url,
-                                    matcher_method=matcher_method,
-                                    request_method=request_method,
-                                    **kwargs),
-                         'Matcher %s %s failed to match %s %s' %
-                         (matcher_method, target, request_method, url))
+        self.assertTrue(
+            self.match(target, url,
+                       matcher_method=matcher_method,
+                       request_method=request_method,
+                       **kwargs),
+            'Matcher %s %s failed to match %s %s' %
+            (matcher_method, target, request_method, url))
 
     def assertMatchBoth(self,
                         target,
@@ -76,14 +75,13 @@ class TestMatcher(base.TestCase):
                       matcher_method='GET',
                       request_method='GET',
                       **kwargs):
-        self.assertEqual(False,
-                         self.match(target,
-                                    url,
-                                    matcher_method=matcher_method,
-                                    request_method=request_method,
-                                    **kwargs),
-                         'Matcher %s %s unexpectedly matched %s %s' %
-                         (matcher_method, target, request_method, url))
+        self.assertFalse(
+            self.match(target, url,
+                       matcher_method=matcher_method,
+                       request_method=request_method,
+                       **kwargs),
+            'Matcher %s %s unexpectedly matched %s %s' %
+            (matcher_method, target, request_method, url))
 
     def assertNoMatchBoth(self,
                           target,
