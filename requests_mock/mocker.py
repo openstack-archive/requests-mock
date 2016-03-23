@@ -41,7 +41,7 @@ class MockerCore(object):
                         'call_count'])
 
     def __init__(self, **kwargs):
-        self._adapter = adapter.Adapter()
+        self._adapter = kwargs.pop('adapter', adapter.Adapter())
         self._real_http = kwargs.pop('real_http', False)
         self._real_send = None
 
@@ -134,6 +134,8 @@ class Mocker(MockerCore):
             as this named keyword argument, rather than a positional argument.
         :param bool real_http: True to send the request to the real requested
             uri if there is not a mock installed for it. Defaults to False.
+        :param object adapter: Pass request_mock.Adapter that has had matchers
+            added. Defaults to creating a new Adapter object
         """
         self._kw = kwargs.pop('kw', None)
         super(Mocker, self).__init__(**kwargs)
@@ -156,7 +158,8 @@ class Mocker(MockerCore):
         """
         m = Mocker(
             kw=self._kw,
-            real_http=self._real_http
+            real_http=self._real_http,
+            adapter=self._adapter
         )
         return m
 
