@@ -96,6 +96,14 @@ class _RequestObjectProxy(object):
         """
         return self._matcher()
 
+    @property
+    def requests_request(self):
+        """Original request object from requests library.
+
+        Note: this will not be available for requests made as result of redirect
+        """
+        return self._request._requests_mock_original_request
+
 
 class _RequestHistoryTracker(object):
 
