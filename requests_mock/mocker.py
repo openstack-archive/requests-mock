@@ -44,6 +44,7 @@ class MockerCore(object):
         self._adapter = adapter.Adapter()
         self._real_http = kwargs.pop('real_http', False)
         self._real_send = None
+        self._real_prepare_request = None
 
         if kwargs:
             raise TypeError('Unexpected Arguments: %s' % ', '.join(kwargs))
@@ -57,6 +58,7 @@ class MockerCore(object):
             raise RuntimeError('Mocker has already been started')
 
         self._real_send = requests.Session.send
+        self._real_prepare_request = requests.Session.prepare_request
 
         def _fake_get_adapter(session, url):
             return self._adapter
@@ -75,7 +77,13 @@ class MockerCore(object):
 
             return self._real_send(session, request, **kwargs)
 
+        def _fake_prepare_request(session, request):
+            prepared_request = self._real_prepare_request(session, request)
+            prepared_request._requests_mock_original_request = request
+            return prepared_request
+
         requests.Session.send = _fake_send
+        requests.Session.prepare_request = _fake_prepare_request
 
     def stop(self):
         """Stop mocking requests.
