@@ -11,6 +11,7 @@
 # under the License.
 
 import copy
+import itertools
 import json
 import weakref
 
@@ -277,6 +278,19 @@ class Adapter(BaseAdapter, _RequestHistoryTracker):
                 raise
 
             if resp is not None:
+                inbuilt = isinstance(request.body, (six.string_types,
+                                                    six.text_type,
+                                                    six.binary_type,
+                                                    tuple,
+                                                    list,
+                                                    dict))
+
+                # tee is cool. This lets us drain a provided iterator for
+                # compatibility, but also save the one that was given.
+                if hasattr(request.body, '__iter__') and not inbuilt:
+                    request.body, it = itertools.tee(request.body)
+                    for r in it: pass
+
                 request._matcher = weakref.ref(matcher)
                 resp.connection = self
                 return resp
