@@ -1,0 +1,8 @@
+Code-Review+2: Jamie Lennox <jamielennox@gmail.com>
+Workflow+1: Jamie Lennox <jamielennox@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Fri, 26 Aug 2016 01:35:01 +0000
+Reviewed-on: https://review.openstack.org/360189
+Project: openstack/requests-mock
+Branch: refs/heads/master
