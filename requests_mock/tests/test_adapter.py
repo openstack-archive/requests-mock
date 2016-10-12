@@ -721,3 +721,25 @@ class SessionAdapterTests(base.TestCase):
         self.assertEqual(netloc, self.adapter.last_request.netloc)
         self.assertEqual(path, self.adapter.last_request.path)
         self.assertEqual(query, self.adapter.last_request.query)
+
+    def test_form_data(self):
+        data = 'testdata'
+
+        self.adapter.register_uri('POST', self.url, text=data)
+
+        resp = self.session.post(self.url, {'abc': 'def', 'ghi': 'jkl'})
+
+        self.assertEqual(data, resp.text)
+        self.assertEqual({'abc': ['def'], 'ghi': ['jkl']},
+                         self.adapter.last_request.form())
+
+    def test_bad_form_data(self):
+        data = 'testdata'
+
+        self.adapter.register_uri('POST', self.url, text=data)
+
+        resp = self.session.post(self.url, data='abcd')
+
+        self.assertEqual(data, resp.text)
+        self.assertEqual('abcd', self.adapter.last_request.text)
+        self.assertRaises(ValueError, self.adapter.last_request.form)
