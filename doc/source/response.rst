@@ -43,6 +43,7 @@ To specify the body of the response there are a number of options that depend on
 :content: A byte string. This should be used for including binary data in responses.
 :body: A file like object that contains a `.read()` function.
 :raw: A prepopulated :py:class:`urllib3.response.HTTPResponse` to be returned.
+:exc: The exception you will want to raise instead of the response. If used other arguments will not be accepted.
 
 These options are named to coincide with the parameters on a :py:class:`requests.Response` object. For example:
 
