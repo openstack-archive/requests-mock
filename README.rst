@@ -61,10 +61,16 @@ Or as a decorator:
 
 For more information checkout the `docs`_.
 
-Reporting Bugs
-==============
+Contribute
+=========
 
+Reporting Bugs
+--------------
 Please report all bugs on `LaunchPad`_.
+
+Developers
+----------
+Fork the `repository`_ on GitHub to start making your changes to the master branch (or branch off of it).
 
 License
 =======
@@ -84,3 +90,4 @@ under the License.
 .. _requests: http://python-requests.org
 .. _docs: http://requests-mock.readthedocs.org
 .. _LaunchPad: https://bugs.launchpad.net/requests-mock
+.. _repository: https://github.com/openstack/requests-mock
