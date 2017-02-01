@@ -133,6 +133,20 @@ Callbacks work within response lists in exactly the same way they do normally;
     >>> resp.status_code, resp.headers, resp.text
     (200, {'Test1': 'value1', 'Test2': 'value2'}, 'response')
 
+Raising Exceptions
+==================
+
+When trying to emulate a connection timeout or SSLError you need to be able to throw an exception when a mock is hit.
+This can be achieved by passing the `exc` parameter instead of a body parameter.
+
+.. doctest::
+
+    >>> adapter.register_uri('GET', 'mock://test.com/6', exc=requests.exceptions.ConnectTimeout),
+    >>> session.get('mock://test.com/6')
+    Traceback (most recent call last):
+       ...
+    ConnectTimeout:
+
 Handling Cookies
 ================
 
@@ -145,8 +159,8 @@ This method does not allow you to set any of the more advanced cookie parameters
 
 .. doctest::
 
-    >>> adapter.register_uri('GET', 'mock://test.com/6', cookies={'foo': 'bar'}),
-    >>> resp = session.get('mock://test.com/6')
+    >>> adapter.register_uri('GET', 'mock://test.com/7', cookies={'foo': 'bar'}),
+    >>> resp = session.get('mock://test.com/7')
     >>> resp.cookies['foo']
     'bar'
 
@@ -156,8 +170,8 @@ The more advanced way is to construct and populate a cookie jar that you can add
 
     >>> jar = requests_mock.CookieJar()
     >>> jar.set('foo', 'bar', domain='.test.com', path='/baz')
-    >>> adapter.register_uri('GET', 'mock://test.com/7', cookies=jar),
-    >>> resp = session.get('mock://test.com/7')
+    >>> adapter.register_uri('GET', 'mock://test.com/8', cookies=jar),
+    >>> resp = session.get('mock://test.com/8')
     >>> resp.cookies['foo']
     'bar'
     >>> resp.cookies.list_paths()
