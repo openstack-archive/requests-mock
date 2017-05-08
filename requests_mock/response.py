@@ -16,7 +16,10 @@ from requests.adapters import HTTPAdapter
 from requests.cookies import MockRequest, MockResponse
 from requests.cookies import RequestsCookieJar
 from requests.cookies import merge_cookies, cookiejar_from_dict
-from requests.packages.urllib3.response import HTTPResponse
+try:
+    from requests.packages.urllib3.response import HTTPResponse
+except ImportError:
+    from urllib3.response import HTTPResponse
 import six
 
 from requests_mock import compat
