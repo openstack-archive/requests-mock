@@ -209,7 +209,7 @@ class Mocker(MockerCore):
         """
         @functools.wraps(func)
         def inner(*args, **kwargs):
-            with self as m:
+            with self.copy() as m:
                 if self._kw:
                     kwargs[self._kw] = m
                 else:
