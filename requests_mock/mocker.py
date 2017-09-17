@@ -62,7 +62,7 @@ class MockerCore(object):
 
     def __init__(self, **kwargs):
         case_sensitive = kwargs.pop('case_sensitive', self.case_sensitive)
-        self._adapter = adapter.Adapter(case_sensitive=case_sensitive)
+        self._adapter = kwargs.pop('adapter') or adapter.Adapter(case_sensitive=case_sensitive)
 
         self._real_http = kwargs.pop('real_http', False)
         self._last_send = None
