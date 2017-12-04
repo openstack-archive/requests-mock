@@ -1,0 +1,9 @@
+Code-Review+1: Dirk Mueller <dirk@dmllr.de>
+Code-Review+2: Jamie Lennox <jamielennox@gmail.com>
+Workflow+1: Jamie Lennox <jamielennox@gmail.com>
+Verified+2: Zuul
+Submitted-by: Zuul
+Submitted-at: Mon, 04 Dec 2017 23:40:19 +0000
+Reviewed-on: https://review.openstack.org/345869
+Project: openstack/requests-mock
+Branch: refs/heads/master
