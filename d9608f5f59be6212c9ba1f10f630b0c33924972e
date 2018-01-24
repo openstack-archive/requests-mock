@@ -1,0 +1,8 @@
+Code-Review+2: Morgan Fainberg <morgan.fainberg@gmail.com>
+Workflow+1: Morgan Fainberg <morgan.fainberg@gmail.com>
+Verified+2: Zuul
+Submitted-by: Zuul
+Submitted-at: Wed, 24 Jan 2018 18:25:00 +0000
+Reviewed-on: https://review.openstack.org/536096
+Project: openstack/requests-mock
+Branch: refs/heads/master
