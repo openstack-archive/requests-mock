@@ -1,4 +1,0 @@
----
-features:
-  - Allow specifying an `additional_matcher` to the mocker that will call a
-    function to allow a user to add their own custom request matching logic.
